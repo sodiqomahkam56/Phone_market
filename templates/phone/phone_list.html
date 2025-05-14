@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Yuqori panel: Foydalanuvchi va Logout -->
+    <div class="d-flex justify-content-between align-items-center mb-4" >
+        <div>
+            <h2 class="fw-bold">📱 Telefonlar ro'yxati</h2>
+            <p class="text-muted mb-0">Xush kelibsiz, <strong>{{ user.username }}</strong>!</p>
+        </div>
+        <form action="{% url 'login' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                🔒 Chiqish
+            </button>
+        </form>
+    </div>
+
+    <!-- Tugmalar -->
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+        <a href="{% url 'create' %}" class="btn btn-success">➕ Qo‘lda qo‘shish</a>
+        <button class="btn btn-dark" onclick="setDarkMode()">🌙 Qora fon</button>
+        <button class="btn btn-light border" onclick="setLightMode()">☀️ Oq fon</button>
+    </div>
+
+    <!-- Jadval -->
+    {% if phones %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Narxi ($)</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phone in phones %}
+                <tr class="fade-in-row">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ phone.brand }}</td>
+                    <td>{{ phone.model }}</td>
+                    <td>{{ phone.price }}</td>
+                    <td>
+                        <a href="{% url 'phone-detail' phone.id %}" class="btn btn-sm btn-outline-primary">Ko‘rish</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">Hech qanday telefon mavjud emas.</div>
+    {% endif %}
+
+</div>
+
+<!-- Rejimlar va animatsiya -->
+<script>
+  function setDarkMode() {
+    document.body.classList.remove("bg-white", "text-dark");
+    document.body.classList.add("bg-dark", "text-light");
+    document.querySelectorAll('.table').forEach(table => {
+      table.classList.add('table-dark');
+    });
+  }
+
+  function setLightMode() {
+    document.body.classList.remove("bg-dark", "text-light");
+    document.body.classList.add("bg-white", "text-dark");
+    document.querySelectorAll('.table').forEach(table => {
+      table.classList.remove('table-dark');
+    });
+  }
+
+  // Satrlarga animatsiya
+  document.querySelectorAll('.fade-in-row').forEach((row, index) => {
+    row.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+  });
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-row {
+    opacity: 0;
+  }
+
+  .table {
+    font-size: 16px;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .table th, .table td {
+    text-align: center;
+    padding: 12px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  body.bg-dark a {
+    color: #0dcaf0;
+  }
+
+  body.bg-dark .alert-warning {
+    background-color: #444;
+    color: #ffc107;
+    border: none;
+  }
+</style>
+{% endblock %}

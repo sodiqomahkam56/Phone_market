@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">📲 Telefon qo‘shish (manual)</h2>
+
+  <form method="post" class="p-4 border rounded bg-light shadow-sm">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="brand" class="form-label">Brand</label>
+      <input type="text" name="brand" id="brand" class="form-control" placeholder="Masalan: Samsung" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="model" class="form-label">Model</label>
+      <input type="text" name="model" id="model" class="form-control" placeholder="Masalan: Galaxy S22" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Narxi ($)</label>
+      <input type="number" name="price" id="price" class="form-control" placeholder="Masalan: 799" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">📥 Saqlash</button>
+    <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxatga qaytish</a>
+  </form>
+</div>
+{% endblock %}

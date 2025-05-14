@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Tugmalar va sarlavha -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">📱 Telefon tafsilotlari</h3>
+        <div class="d-flex gap-2">
+            <button class="btn btn-dark btn-sm" onclick="setDarkMode()">Qora fon</button>
+            <button class="btn btn-light btn-sm border" onclick="setLightMode()">Oq fon</button>
+        </div>
+    </div>
+
+    <!-- Kartochka -->
+    <div class="card shadow-sm p-3 rounded" style="max-width: 500px;">
+        <h4 class="mb-3">{{ phone.brand }} - {{ phone.model }}</h4>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Narxi:</strong> ${{ phone.price }}</li>
+            <li class="list-group-item"><strong>Yaratilgan vaqti:</strong> {{ phone.created_at }}</li>
+        </ul>
+        <div class="mt-3 d-flex justify-content-between">
+            <a href="{% url 'phone-list' %}" class="btn btn-secondary">⬅️ Orqaga</a>
+            <form action="{% url 'phone-delete' phone.id %}" method="post" onsubmit="return confirm('Rostdan ham o‘chirmoqchimisiz?')">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">🗑️ O‘chirish</button>
+</form>
+            <a href="{% url 'phone-update' phone.id %}" class="btn btn-warning">✏️ Tahrirlash</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+  function setDarkMode() {
+    document.body.classList.remove("bg-white", "text-dark");
+    document.body.classList.add("bg-dark", "text-light");
+  }
+
+  function setLightMode() {
+    document.body.classList.remove("bg-dark", "text-light");
+    document.body.classList.add("bg-white", "text-dark");
+  }
+</script>
+
+<style>
+  body.bg-dark .card {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #444;
+  }
+
+  body.bg-dark .list-group-item {
+    background-color: #495057;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .card {
+    background-color: #f8f9fa;
+  }
+</style>
+{% endblock %}

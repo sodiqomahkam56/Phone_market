@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" class="form-input" placeholder="Enter your username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" class="form-input" placeholder="Create a password" required>
+            </div>
+
+            <button type="submit" class="submit-btn">💾 Saqlash</button>
+
+            <!-- 👇 Login tugmasi qo‘shildi -->
+            <a href="{% url 'login' %}" class="login-link-btn">🔐 Login</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
