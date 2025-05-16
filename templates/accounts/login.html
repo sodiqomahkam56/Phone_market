@@ -1,26 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="form-wrapper">
-        <h2>Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="input-group">
-                <label for="id_username">Username</label>
-                <input type="text" name="username" id="id_username" class="form-input" placeholder="Enter your username" required>
-            </div>
-
-            <div class="input-group">
-                <label for="id_password">Password</label>
-                <input type="password" name="password" id="id_password" class="form-input" placeholder="Enter your password" required>
-            </div>
-
-            <button type="submit" class="submit-btn">Login</button>
-
-            <!-- 👇 Register tugmasi -->
-            <a href="{% url 'register' %}" class="register-link-btn">🚀 Akkauntingiz yo‘qmi? Ro‘yxatdan o‘tish</a>
-        </form>
-    </div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%; border-radius: 1rem;">
+    <h2 class="text-center mb-4 fw-bold text-primary">Login</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_username" class="form-label fw-semibold">Username</label>
+        <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter your username" required autofocus>
+      </div>
+      <div class="mb-4">
+        <label for="id_password" class="form-label fw-semibold">Password</label>
+        <input type="password" name="password" id="id_password" class="form-control" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold mb-3">Login</button>
+      <div class="text-center">
+        <a href="{% url 'register' %}" class="text-decoration-none text-primary fw-semibold">🚀 Akkauntingiz yo‘qmi? Ro‘yxatdan o‘tish</a>
+      </div>
+    </form>
+  </div>
 </div>
+
+<style>
+  body.bg-dark .card {
+    background-color: #222;
+    color: #eee;
+  }
+  body.bg-dark .form-control {
+    background-color: #333;
+    border-color: #555;
+    color: #eee;
+  }
+  body.bg-dark .form-control:focus {
+    background-color: #444;
+    border-color: #339af0;
+    color: #fff;
+    box-shadow: none;
+  }
+  body.bg-dark .btn-primary {
+    background-color: #339af0;
+    border-color: #339af0;
+  }
+  body.bg-dark .btn-primary:hover {
+    background-color: #1c7ed6;
+    border-color: #1c7ed6;
+  }
+  body.bg-dark a.text-primary {
+    color: #66b2ff;
+  }
+  body.bg-dark a.text-primary:hover {
+    color: #1c7ed6;
+  }
+</style>
 {% endblock %}

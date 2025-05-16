@@ -20,7 +20,7 @@ def phone_list(request):
 
 def phone_create(request):
     if request.method == "POST":
-        form = PhoneForm(request.POST)
+        form = PhoneForm(request.POST, request.FILES)  # request.FILES qo‘shildi
         if form.is_valid():
             form.save()
             return redirect('phone-list')
@@ -28,7 +28,11 @@ def phone_create(request):
         form = PhoneForm()
     return render(request, 'phone/phone_form.html', {'form': form})
 
+
+
 def phone_detail(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
     phone = Phone.objects.get(id=id)
     context = {
         'phone': phone,
@@ -44,11 +48,14 @@ def phone_delete(request, id):
     return HttpResponseNotAllowed(['POST'])
 
 
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Phone
+
 
 def update_phone(request,pk):
     phone=Phone.objects.get(pk=pk)
     if request.method == "POST":
-        form=PhoneForm(request.POST, instance=phone)
+        form=PhoneForm(request.POST,request.FILES, instance=phone)
         if form.is_valid():
             form.save()
             return redirect('phone-list')
@@ -57,6 +64,9 @@ def update_phone(request,pk):
     else:
         form=PhoneForm(instance=phone)
     return render(request, 'phone/phone_form.html', {'form': form}) #html yaratish kerak
+
+
+
 
 def logout(request):
     logout(request)

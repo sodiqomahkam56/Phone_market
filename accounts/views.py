@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from accounts.forms import UserForm, LoginForm
+from accounts.forms import UserForm, LoginForm, EmailForm
+
 
 def register(request):
     if request.method == 'POST':
@@ -31,3 +32,8 @@ def login_view(request):
         form = LoginForm(request.POST)
 
     return render(request, 'accounts/login.html', {'form': form})
+
+def send_email(request):
+    form=EmailForm()
+    return render(request, 'accounts/send_email.html', {'form': form})
+

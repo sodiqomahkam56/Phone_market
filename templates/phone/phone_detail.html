@@ -1,63 +1,69 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow-sm p-4" style="max-width: 600px; width: 100%; border-radius: 20px;">
 
-    <!-- Tugmalar va sarlavha -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold">📱 Telefon tafsilotlari</h3>
-        <div class="d-flex gap-2">
-            <button class="btn btn-dark btn-sm" onclick="setDarkMode()">Qora fon</button>
-            <button class="btn btn-light btn-sm border" onclick="setLightMode()">Oq fon</button>
-        </div>
+    {% if phone.image %}
+      <div class="text-center mb-4">
+        <img src="{{ phone.image.url }}" alt="{{ phone.brand }} {{ phone.model }}"
+             style="max-width: 100%; max-height: 300px; object-fit: contain; border-radius: 12px;">
+      </div>
+    {% endif %}
+
+    <h3 class="text-center fw-bold mb-3">{{ phone.brand }} {{ phone.model }}</h3>
+
+    <ul class="list-group list-group-flush mb-4">
+      <li class="list-group-item"><strong>Narxi:</strong> ${{ phone.price }}</li>
+      <li class="list-group-item"><strong>Yaratilgan vaqti:</strong> {{ phone.created_at|date:"d M Y, H:i" }}</li>
+    </ul>
+
+    {% if phone.description %}
+      <div class="mb-3">
+        <div class="fw-semibold mb-1">Tavsif:</div>
+        <div class="small" style="white-space: pre-wrap;">{{ phone.description }}</div>
+      </div>
+    {% endif %}
+
+    <!-- Description form -->
+    <form action="{% url 'phone-update' phone.id %}" method="post" class="mb-3">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="description" class="form-label fw-semibold">Tavsifni yangilash</label>
+        <textarea name="description" id="description" rows="3" class="form-control" placeholder="Telefon haqida ma'lumot kiriting...">{{ phone.description }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">💾 Saqlash</button>
+    </form>
+
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'phone-list' %}" class="btn btn-outline-primary">⬅️ Orqaga</a>
+
+      <form action="{% url 'phone-delete' phone.id %}" method="post" onsubmit="return confirm('Rostdan ham o‘chirmoqchimisiz?')">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger">🗑️ O‘chirish</button>
+      </form>
+
+      <a href="{% url 'phone-update' phone.id %}" class="btn btn-outline-warning">✏️ Tahrirlash</a>
     </div>
 
-    <!-- Kartochka -->
-    <div class="card shadow-sm p-3 rounded" style="max-width: 500px;">
-        <h4 class="mb-3">{{ phone.brand }} - {{ phone.model }}</h4>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Narxi:</strong> ${{ phone.price }}</li>
-            <li class="list-group-item"><strong>Yaratilgan vaqti:</strong> {{ phone.created_at }}</li>
-        </ul>
-        <div class="mt-3 d-flex justify-content-between">
-            <a href="{% url 'phone-list' %}" class="btn btn-secondary">⬅️ Orqaga</a>
-            <form action="{% url 'phone-delete' phone.id %}" method="post" onsubmit="return confirm('Rostdan ham o‘chirmoqchimisiz?')">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">🗑️ O‘chirish</button>
-</form>
-            <a href="{% url 'phone-update' phone.id %}" class="btn btn-warning">✏️ Tahrirlash</a>
-        </div>
-    </div>
-
+  </div>
 </div>
-
-<script>
-  function setDarkMode() {
-    document.body.classList.remove("bg-white", "text-dark");
-    document.body.classList.add("bg-dark", "text-light");
-  }
-
-  function setLightMode() {
-    document.body.classList.remove("bg-dark", "text-light");
-    document.body.classList.add("bg-white", "text-dark");
-  }
-</script>
 
 <style>
   body.bg-dark .card {
-    background-color: #343a40;
-    color: #fff;
-    border-color: #444;
+    background-color: #1e1e1e;
+    color: #eee;
   }
-
   body.bg-dark .list-group-item {
-    background-color: #495057;
+    background-color: #2c2c2c;
     border-color: #444;
-    color: #fff;
+    color: #ddd;
   }
-
-  .card {
-    background-color: #f8f9fa;
+  body.bg-dark textarea,
+  body.bg-dark input,
+  body.bg-dark label {
+    background-color: #2c2c2c;
+    color: #eee;
   }
 </style>
 {% endblock %}

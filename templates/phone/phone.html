@@ -1,29 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-  <h2 class="mb-4">📲 Telefon qo‘shish (manual)</h2>
-
-  <form method="post" class="p-4 border rounded bg-light shadow-sm">
-    {% csrf_token %}
-
-    <div class="mb-3">
-      <label for="brand" class="form-label">Brand</label>
-      <input type="text" name="brand" id="brand" class="form-control" placeholder="Masalan: Samsung" required>
+<div class="container my-5" style="max-width: 600px;">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white text-center fs-4 fw-bold">
+      📲 Telefon ma'lumotlarini yangilash
     </div>
+    <div class="card-body">
 
-    <div class="mb-3">
-      <label for="model" class="form-label">Model</label>
-      <input type="text" name="model" id="model" class="form-control" placeholder="Masalan: Galaxy S22" required>
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <table class="table table-bordered" style="color: #000;">
+          <tbody>
+            <tr>
+              <th style="width: 30%; vertical-align: middle;">Brand</th>
+              <td>
+                <input type="text" name="brand" id="brand" class="form-control" value="{{ phone.brand }}" required>
+              </td>
+            </tr>
+            <tr>
+              <th style="vertical-align: middle;">Model</th>
+              <td>
+                <input type="text" name="model" id="model" class="form-control" value="{{ phone.model }}" required>
+              </td>
+            </tr>
+            <tr>
+              <th style="vertical-align: middle;">Narxi ($)</th>
+              <td>
+                <input type="number" name="price" id="price" class="form-control" value="{{ phone.price }}" min="0" step="any" required>
+              </td>
+            </tr>
+            <tr>
+              <th style="vertical-align: middle;">Rasm yuklang</th>
+              <td>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                {% if phone.image %}
+                  <small>Joriy rasm: <a href="{{ phone.image.url }}" target="_blank">Ko‘rish</a></small>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th style="vertical-align: top;">Tavsif</th>
+              <td>
+                <textarea name="description" id="description" class="form-control" rows="4" style="color: #000;">{{ phone.description }}</textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <button type="submit" class="btn btn-primary fw-semibold px-4">💾 Saqlash</button>
+          <a href="{% url 'phone-list' %}" class="btn btn-outline-secondary fw-semibold px-4">⬅️ Ro‘yxatga qaytish</a>
+        </div>
+
+      </form>
     </div>
-
-    <div class="mb-3">
-      <label for="price" class="form-label">Narxi ($)</label>
-      <input type="number" name="price" id="price" class="form-control" placeholder="Masalan: 799" required>
-    </div>
-
-    <button type="submit" class="btn btn-success">📥 Saqlash</button>
-    <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxatga qaytish</a>
-  </form>
+  </div>
 </div>
+
+<style>
+  /* Jadval ichidagi barcha matn va inputlarni qora rangda ko‘rsatamiz */
+  table.table {
+    color: #000 !important;
+  }
+  table.table input,
+  table.table textarea {
+    color: #000 !important;
+    background-color: #fff !important;
+    border: 1px solid #ced4da !important;
+  }
+  table.table input:focus,
+  table.table textarea:focus {
+    outline: none;
+    border-color: #0d6efd !important; /* Bootstrap primary rang */
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  table.table th {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+</style>
+
 {% endblock %}

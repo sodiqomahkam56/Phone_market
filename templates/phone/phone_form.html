@@ -1,59 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container mt-5">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold">📄 Telefon qo‘shish (ModelForm orqali)</h2>
-    <div class="d-flex justify-content-center gap-2 mt-3">
-      <button class="btn btn-dark" onclick="setDarkMode()">Qora fon</button>
-      <button class="btn btn-light border" onclick="setLightMode()">Oq fon</button>
-    </div>
-  </div>
 
-  <form method="post" class="p-4 border rounded bg-light shadow-sm" id="phone-form">
-    {% csrf_token %}
-    {% for field in form %}
-      <div class="mb-3">
-        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-          <div class="text-danger small">{{ field.errors|striptags }}</div>
-        {% endif %}
-      </div>
-    {% endfor %}
+  <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light shadow-sm" id="phone-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
 
-    <button type="submit" class="btn btn-success">💾 Saqlash</button>
-    <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxat</a>
+      <button type="submit" class="btn btn-success">💾 Saqlash</button>
+      <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxat</a>
   </form>
 </div>
 
-<script>
-  function setDarkMode() {
-    document.body.classList.remove("bg-white", "text-dark");
-    document.body.classList.add("bg-dark", "text-light");
-
-    const form = document.getElementById("phone-form");
-    form.classList.remove("bg-light", "text-dark");
-    form.classList.add("bg-dark", "text-light");
-
-    document.querySelectorAll('.form-control').forEach(el => {
-      el.classList.add("bg-dark", "text-light", "border-light");
-      el.classList.remove("bg-white", "text-dark", "border-dark");
-    });
+<style>
+  /* Form ichidagi label va input/textarea qora rangda bo‘lsin */
+  #phone-form label,
+  #phone-form input,
+  #phone-form textarea,
+  #phone-form select {
+    color: #000 !important;
   }
+</style>
 
-  function setLightMode() {
-    document.body.classList.remove("bg-dark", "text-light");
-    document.body.classList.add("bg-white", "text-dark");
-
-    const form = document.getElementById("phone-form");
-    form.classList.remove("bg-dark", "text-light");
-    form.classList.add("bg-light", "text-dark");
-
-    document.querySelectorAll('.form-control').forEach(el => {
-      el.classList.add("bg-white", "text-dark", "border-dark");
-      el.classList.remove("bg-dark", "text-light", "border-light");
-    });
-  }
-</script>
 {% endblock %}
