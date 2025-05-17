@@ -1,8 +1,10 @@
 from django.contrib.auth import logout
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
+
 from .forms import PhoneForm
-from .models import Profile
+from .models import Profile, Favourites
 from .models import Phone
 
 
@@ -18,7 +20,15 @@ def create_phone(request):
 
 def phone_list(request):
     phones = Phone.objects.all()
-    return render(request, 'phone/phone_list.html', {'phones': phones})
+    user_favorites = []
+    if request.user.is_authenticated:
+        user_favorites = Favourites.objects.filter(user=request.user).values_list('product_id', flat=True)
+    context = {
+        'phones': phones,
+        'user_favorites': user_favorites,
+    }
+    return render(request, 'phone/phone_list.html', context)
+
 
 def phone_create(request):
     if request.method == "POST":
@@ -119,7 +129,25 @@ def profile_edit_mode(request):
     return redirect('user-account')
 
 
+@login_required
+@require_POST
+def toggle_favorite(request, product_id):
+    user = request.user
+    product = get_object_or_404(Phone, pk=product_id)
 
+    favorite, created = Favourites.objects.get_or_create(user=user, product=product)
 
+    if not created:
+        favorite.delete()
+        status = 'removed'
+    else:
+        status = 'added'
 
+    return JsonResponse({'status': status, 'product_id': product_id})
 
+@login_required
+def favorites_list(request):
+    user = request.user
+    favorites = Favourites.objects.filter(user=user).select_related('product')
+    products = [fav.product for fav in favorites]
+    return render(request, 'phone/favorites.html', {'products': products})

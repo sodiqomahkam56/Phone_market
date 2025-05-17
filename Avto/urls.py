@@ -12,4 +12,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('account/', views.user_account, name='user-account'),
     path('account/edit/', profile_edit_mode, name='profile-edit'),
+    path('toggle-favorite/<int:product_id>/', views.toggle_favorite, name='toggle-favorite'),
+    path('favorites/', views.favorites_list, name='favorites-list'),
+
 ]

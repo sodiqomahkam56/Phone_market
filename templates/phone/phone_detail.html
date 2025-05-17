@@ -37,6 +37,12 @@
 
     <div class="d-flex justify-content-between">
       <a href="{% url 'phone-list' %}" class="btn btn-outline-primary">⬅️ Orqaga</a>
+      <button type="button"
+        class="btn btn-outline-danger mb-3"
+        onclick="toggleFavorite({{ phone.id }}, this)">
+  🤍 Sevimli
+</button>
+
 
       <form action="{% url 'phone-delete' phone.id %}" method="post" onsubmit="return confirm('Rostdan ham o‘chirmoqchimisiz?')">
         {% csrf_token %}
