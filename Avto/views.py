@@ -2,7 +2,6 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
-
 from .forms import PhoneForm
 from .models import Profile, Favourites
 from .models import Phone
@@ -75,9 +74,7 @@ def update_phone(request,pk):
             return HttpResponse('Notogri malumot kiritgansiz',status=400)
     else:
         form=PhoneForm(instance=phone)
-    return render(request, 'phone/phone_form.html', {'form': form}) #html yaratish kerak
-
-
+    return render(request, 'phone/phone_form.html', {'form': form})
 
 
 def logout_view(request):
@@ -144,6 +141,7 @@ def toggle_favorite(request, product_id):
         status = 'added'
 
     return JsonResponse({'status': status, 'product_id': product_id})
+
 
 @login_required
 def favorites_list(request):

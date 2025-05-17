@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from .views import profile_edit_mode
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('', views.phone_list, name='phone-list'),
@@ -14,5 +16,5 @@ urlpatterns = [
     path('account/edit/', profile_edit_mode, name='profile-edit'),
     path('toggle-favorite/<int:product_id>/', views.toggle_favorite, name='toggle-favorite'),
     path('favorites/', views.favorites_list, name='favorites-list'),
-
+    path('login/', auth_views.LoginView.as_view(), name='login'),
 ]

@@ -153,9 +153,7 @@ EMAIL_HOST_USER = "sodiqomahkam56@gmail.com"
 
 EMAIL_HOST_PASSWORD = "aetn rguf ugaf ippz"
 
-
-
-
+LOGIN_URL = 'login'
 
 
 
