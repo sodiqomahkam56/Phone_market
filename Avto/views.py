@@ -1,6 +1,8 @@
+from django.contrib.auth import logout
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from .forms import PhoneForm
+from .models import Profile
 from .models import Phone
 
 
@@ -68,12 +70,53 @@ def update_phone(request,pk):
 
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return redirect('login')
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def user_account(request):
+    user = request.user
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    if request.method == "POST":
+        first_name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        avatar = request.FILES.get('avatar')
+
+        if first_name:
+            user.first_name = first_name
+            user.save()
+
+        if phone is not None:
+            profile.phone = phone
+
+        if avatar is not None:
+            profile.avatar = avatar
+
+        profile.save()
+
+        request.session['profile_edit_mode'] = False
+        return redirect('user-account')
+
+    edit_mode = request.session.get('profile_edit_mode', False)
+
+    context = {
+        'user': user,
+        'profile': profile,
+        'edit_mode': edit_mode,
+    }
+    return render(request, 'phone/user_account.html', context)
+
+
+@login_required
+def profile_edit_mode(request):
+    request.session['profile_edit_mode'] = True
+    return redirect('user-account')
 
 
 

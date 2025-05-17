@@ -1,3 +1,5 @@
+from random import randint, random
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -37,3 +39,5 @@ def send_email(request):
     form=EmailForm()
     return render(request, 'accounts/send_email.html', {'form': form})
 
+def random_number():
+    return random.randint(100000,999999)
