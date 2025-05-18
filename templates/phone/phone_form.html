@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center mt-5">
+  <div class="card p-4 shadow-sm border-0 rounded-4" style="max-width: 600px; width: 100%;">
+    <h3 class="text-center mb-4 fw-bold text-primary">📱 Telefon qo‘shish</h3>
 
-<div class="container mt-5">
-
-  <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="phone-form">
       {% csrf_token %}
       {% for field in form %}
         <div class="mb-3">
-          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
           {{ field }}
           {% if field.errors %}
             <div class="text-danger small">{{ field.errors|striptags }}</div>
@@ -16,19 +17,66 @@
         </div>
       {% endfor %}
 
-      <button type="submit" class="btn btn-success">💾 Yaratish </button>
-      <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxat</a>
-  </form>
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-success px-4 rounded-pill fw-semibold">💾 Yaratish</button>
+        <a href="{% url 'phone-list' %}" class="btn btn-secondary px-4 rounded-pill fw-semibold">⬅️ Ro‘yxat</a>
+      </div>
+    </form>
+  </div>
 </div>
 
 <style>
-  /* Form ichidagi label va input/textarea qora rangda bo‘lsin */
-  #phone-form label,
+  /* Light mode default */
   #phone-form input,
   #phone-form textarea,
   #phone-form select {
-    color: #000 !important;
+    color: #000;
+  }
+
+  /* Dark mode styles */
+  body.bg-dark .card {
+    background-color: #2b2b2b;
+    border-color: #444;
+    color: #eee;
+  }
+
+  body.bg-dark .form-label {
+    color: #ccc;
+  }
+
+  body.bg-dark input,
+  body.bg-dark textarea,
+  body.bg-dark select {
+    background-color: #333;
+    border-color: #555;
+    color: #eee;
+  }
+
+  body.bg-dark input:focus,
+  body.bg-dark textarea:focus,
+  body.bg-dark select:focus {
+    background-color: #444;
+    border-color: #66b2ff;
+    color: #fff;
+    box-shadow: none;
+  }
+
+  body.bg-dark .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+
+  body.bg-dark .btn-success:hover {
+    background-color: #218838;
+  }
+
+  body.bg-dark .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+
+  body.bg-dark .btn-secondary:hover {
+    background-color: #5a6268;
   }
 </style>
-
 {% endblock %}
