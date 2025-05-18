@@ -17,7 +17,8 @@
                 {% endif %}
                 <div class="card-body d-flex flex-column">
                     <p class="fw-semibold fs-5 mb-2">{{ phone.brand }} {{ phone.model }}</p>
-                    <p class="text-muted mb-3">Narxi: ${{ phone.price }}</p>
+                    <h6>Narxi: ${{ phone.price }}</h6>
+
 
                     <!-- Sevimli tugmasi -->
                     <button type="button"
@@ -109,11 +110,31 @@
     font-weight: 600;
   }
 
-  /* Dark mode adjustments */
-  body.bg-dark .card {
-    background-color: #2b2b2b;
-    border-color: #444;
-  }
+/* Dark mode adjustments */
+body.bg-dark .card {
+  background-color: #2b2b2b;
+  border-color: #444;
+  color: #eee; /* Card matni uchun oydin rang qo‘shildi */
+}
+
+body.bg-dark .card .fw-semibold,
+body.bg-dark .card p,
+body.bg-dark .card span,
+body.bg-dark .card a,
+body.bg-dark .card button {
+  color: #eee; /* Card ichidagi matn, link va tugmalar ranglari */
+}
+
+body.bg-dark .btn-outline-primary {
+  color: #66b2ff;
+  border-color: #66b2ff;
+}
+
+body.bg-dark .btn-outline-primary:hover {
+  background-color: #66b2ff;
+  color: #fff;
+}
+
   body.bg-dark .btn-outline-primary {
     color: #66b2ff;
     border-color: #66b2ff;

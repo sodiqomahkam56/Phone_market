@@ -16,7 +16,14 @@
       </div>
       <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold mb-3">Login</button>
       <div class="text-center">
-        <a href="{% url 'register' %}" class="text-decoration-none text-primary fw-semibold">🚀 Akkauntingiz yo‘qmi? Ro‘yxatdan o‘tish</a>
+
+        {% if request.user.is_authenticated %}
+        {% else %}
+        <div class="d-flex align-items-center gap-2">
+          <span>🚀 Akkauntingiz yo‘qmi?</span>
+  <a href="{% url 'register' %}" class="text-decoration-none text-primary fw-semibold">Ro‘yxatdan o‘tish</a>
+        </div>
+        {% endif %}
       </div>
     </form>
   </div>

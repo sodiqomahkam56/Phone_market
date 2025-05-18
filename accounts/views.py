@@ -2,8 +2,10 @@ from random import randint, random
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from accounts.forms import UserForm, LoginForm, EmailForm
+from .models import CustomUser
 
 
 def register(request):
@@ -12,6 +14,9 @@ def register(request):
         if form.is_valid():
             form.save()
             return redirect('login')
+        else:
+            print(form.errors)
+            return render(request, 'accounts/register.html', {'form': form})
     else:
         form = UserForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -22,7 +27,7 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = User.objects.filter(username=username).first()
+            user = authenticate(request, username=username, password=password)
             print(user)
             if user:
                 login(request, user)
@@ -31,7 +36,7 @@ def login_view(request):
             else:
                 form.add_error(None, "Login yoki parol noto‘g‘ri")
     else:
-        form = LoginForm(request.POST)
+        form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
 

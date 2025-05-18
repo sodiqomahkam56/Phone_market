@@ -4,7 +4,7 @@
 
 <div class="container mt-5">
 
-  <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light shadow-sm" id="phone-form">
+  <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% for field in form %}
         <div class="mb-3">
@@ -16,7 +16,7 @@
         </div>
       {% endfor %}
 
-      <button type="submit" class="btn btn-success">💾 Saqlash</button>
+      <button type="submit" class="btn btn-success">💾 Yaratish </button>
       <a href="{% url 'phone-list' %}" class="btn btn-secondary ms-2">⬅️ Ro‘yxat</a>
   </form>
 </div>

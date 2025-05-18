@@ -1,12 +1,13 @@
 from django import forms
-from django.contrib.auth.models import User
+from .models import CustomUser
+
 
 class UserForm(forms.ModelForm):
     # fullname = forms.CharField(max_length=100)
 
     class Meta:
-        model = User
-        fields = ['username','password']
+        model = CustomUser
+        fields = ['username','phone','password',]
 
     # def save(self, commit=True):
         # user = super().save(commit=False)
@@ -20,7 +21,13 @@ class UserForm(forms.ModelForm):
         # return user
 
     def save(self, commit=True):
-        return User.objects.create_user(self.cleaned_data['username'],self.cleaned_data['password'])
+        user = CustomUser.objects.create_user(
+            username=self.cleaned_data['username'],
+            password=self.cleaned_data['password'],
+            phone=self.cleaned_data['phone']
+        )
+        return user
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
