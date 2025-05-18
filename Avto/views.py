@@ -33,6 +33,8 @@ def phone_create(request):
     if request.method == "POST":
         form = PhoneForm(request.POST,request.FILES)
         if form.is_valid():
+            phone = form.save(commit=False)
+            phone.user = request.user
             form.save()
             return redirect('phone-list')
         else:

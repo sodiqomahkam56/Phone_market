@@ -63,6 +63,14 @@
     </div>
   </div>
 </nav>
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <script>
   // CSRF tokenni olish uchun funksiya (Djangoda AJAX uchun kerak)
   function getCookie(name) {

@@ -4,6 +4,13 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Phone(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='phones',
+        null=True,  # vaqtincha
+        blank=True
+    )
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=20)
     description = models.TextField(default="", blank=True)

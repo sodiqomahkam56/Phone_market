@@ -1,5 +1,5 @@
 from random import randint, random
-
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -20,6 +20,27 @@ def register(request):
     else:
         form = UserForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+def register_view(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            if CustomUser.objects.filter(username=username).exists():
+                messages.error(request, 'Bu username band, iltimos boshqa username tanlang.')
+                # username band bo‘lsa, formni qayta ko‘rsatamiz xatolik bilan
+                return render(request, 'accounts/register.html', {'form': form})
+            else:
+                form.save()
+                messages.success(request, 'Ro‘yxatdan o‘tish muvaffaqiyatli yakunlandi!')
+                return redirect('login')
+        else:
+            messages.error(request, 'Iltimos, shaklni to‘g‘ri to‘ldiring.')
+    else:
+        form = UserForm()
+    return render(request, 'accounts/register.html', {'form': form})
+
+
 
 def login_view(request):
     if request.method == 'POST':
