@@ -1,7 +1,14 @@
+import random
+from datetime import timedelta
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
+
+from accounts.models import CustomUser
+
 
 class Phone(models.Model):
     user = models.ForeignKey(
@@ -43,3 +50,15 @@ class Favourites(models.Model):
 
     class Meta:
         unique_together = ('user', 'product')
+
+
+def random_num():
+    return random.randint(100000, 999999)
+
+def time_check():
+    return timezone.now() + timedelta(minutes=2)
+
+class Code(models.Model):
+    user=models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='codes')
+    code=models.CharField(max_length=6,default=random_num)
+    expired_at = models.DateTimeField(default=time_check)

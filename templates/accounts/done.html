@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-4 shadow-sm text-center" style="max-width: 500px; width: 100%; border-radius: 1rem;">
+    <h2 class="text-success mb-3 fw-bold">📧 Email yuborildi!</h2>
+    <p>Parolni tiklash bo‘yicha havola emailingizga yuborildi.</p>
+    <p>Iltimos, pochtangizni tekshirib, yuborilgan havolani bosing.</p>
+  </div>
+</div>
+
+<style>
+  body.bg-dark .card {
+    background-color: #2b2b2b;
+    color: #eee;
+  }
+  body.bg-dark .btn-outline-primary {
+    color: #66b2ff;
+    border-color: #66b2ff;
+  }
+  body.bg-dark .btn-outline-primary:hover {
+    background-color: #66b2ff;
+    color: #fff;
+  }
+</style>
+{% endblock %}

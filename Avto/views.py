@@ -154,3 +154,4 @@ def favorites_list(request):
     favorites = Favourites.objects.filter(user=user).select_related('product')
     products = [fav.product for fav in favorites]
     return render(request, 'phone/favorites.html', {'products': products})
+

@@ -14,3 +14,4 @@ class PhoneForm(forms.ModelForm):
             'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Masalan: Galaxy S23'}),
             'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Masalan: 999'}),
         }
+
